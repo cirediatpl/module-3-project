@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: MyString
+  start_time: 2019-07-23 11:27:17
+  address: MyString
+  duration: 1
+  coach: one
+  user: one
+
+two:
+  status: MyString
+  start_time: 2019-07-23 11:27:17
+  address: MyString
+  duration: 1
+  coach: two
+  user: two
