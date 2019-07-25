@@ -1,5 +1,10 @@
 class CoachesController < ApplicationController
 
+    def show
+        coach = Coach.find_by(username: params[:username])
+        render json: coach
+    end
+
     def create
         coach = Coach.new(coach_params)
         if coach.valid?

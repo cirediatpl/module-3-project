@@ -12,8 +12,10 @@ class AppointmentsController < ApplicationController
     end
 
     def index
-        appointments = Appointment.where(status: "accepted")
+        status = params[:status]
+        appointments = Appointment.where(status: status)
         render json: appointments
+        # appointments = Appointment.where(status: "accepted")
     end
 
     private

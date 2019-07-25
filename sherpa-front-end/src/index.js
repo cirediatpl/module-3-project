@@ -4,6 +4,7 @@
 const BASE_URL = "http://localhost:3000"
 
 document.addEventListener("DOMContentLoaded", function(e){
+  localStorage.clear()
   if(localStorage.getItem('user_id')){
     const userId = localStorage.getItem('user_id')
     fetch(`${BASE_URL}/users/${userId}`)

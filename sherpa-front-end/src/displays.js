@@ -88,6 +88,8 @@ function displayLogin(model, Use) {
     const mainContainer = document.querySelector('main')
     mainContainer.innerHTML = `<h2>Welcome back, ${user.name}</h2>
     <button id="logout">Logout</button>`
+    displayCoachIndex()
+    renderAppointments("accepted")
     
     const logoutButton = document.getElementById('logout')
     logoutButton.addEventListener('click', function(e){
@@ -100,6 +102,7 @@ function displayLogin(model, Use) {
     const mainContainer = document.querySelector('main')
     mainContainer.innerHTML = `<h2>Welcome back, ${coach.name}</h2>
     <button id="logout">Logout</button>`
+    renderAppointments("pending")
     
     const logoutButton = document.getElementById('logout')
     logoutButton.addEventListener('click', function(e){
@@ -246,17 +249,87 @@ function displayCoachIndex(){
             <p>${coach.name}
             <button class="addAppointment" data-coach-id=${coach.id}>Book Appointment</button></p>
           </div>`
+          // bug: only first button is working
+          addAppointment()
         })
       } else {
         coachList.innerHTML += `<h3>No results. Search again!</h3>`
       }
     })
   })
-  // add Event Listener for appointment button
-  // should send post request to Appointments with coach.id and DataStorage (user id)
 }
 
 function addAppointment() {
-  let appointmentTag = document.getElementsByClassName("addAppointment")
+  let appointmentTag = document.querySelector(".addAppointment")
+  appointmentTag.addEventListener('click', (e) => {
+    const coachId = e.target.dataset.coachId
+    const userId = localStorage.getItem('user_id')
+    fetch(`${BASE_URL}/appointments`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        coach_id: coachId,
+        user_id: userId,
+        status: "pending",
+        // datetime: 
+        duration: 30,
+        address: "New Haven, CT"
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+  })
 }
   
+function renderAppointments(status) {
+  // need to make back-end so only appointments for specific coach are returned
+  const mainContainer = document.querySelector('main')
+  fetch(`${BASE_URL}/appointments?status=${status}`)
+  .then(res => res.json())
+  .then(appointments => {
+    appointments.forEach(appointment => {
+      const div = document.createElement('div')
+      mainContainer.append(div)
+      div.innerHTML += `
+        <div>
+          <span>${appointment.coach_id}</span>
+          <span>${appointment.user_id}</span>
+          <span>${appointment.duration} minutes</span>
+          <span>${appointment.address}</span>
+          <span>${appointment.status}</span>
+        </div>
+      `
+      // start_time is not listed above
+      if (status == "pending") {
+        const button = document.createElement('button')
+        const text = document.createTextNode(`Accept`)
+        div.append(button)
+        button.append(text)
+        button.addEventListener('click', e => acceptAppointment(e, appointment.id))
+      } else {
+      }
+    })
+  })
+}
+
+function acceptAppointment(e, id) {
+  fetch(`${BASE_URL}/appointments/${id}`, {
+    method: "PATCH",
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    },
+    body: JSON.stringify({
+      status: "accepted"
+    })
+  })
+  .then(res => res.json())
+  .then(appointment => {
+    console.log(appointment)
+    e.target.parentElement.remove()
+    // pessimistically render right now, change to optimistic after testing it works
+  })
+}
