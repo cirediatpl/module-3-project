@@ -244,13 +244,15 @@ function displayCoachIndex(){
     .then(coaches => {
       if(coaches !== null && coaches.length > 0){
         coaches.forEach((coach) => {
-          coachList.innerHTML += `
-          <div>
-            <p>${coach.name}
-            <button class="addAppointment" data-coach-id=${coach.id}>Book Appointment</button></p>
-          </div>`
-          // bug: only first button is working
-          addAppointment()
+          const div = document.createElement("div")
+          div.innerHTML = `${coach.name} `
+          const button = document.createElement("button")
+          button.dataset.coachId = coach.id
+          button.classList.add("addAppointment")
+          button.innerText = "Add Appointment"
+          button.addEventListener('click', e => {addAppointment(e)})
+          div.append(button)
+          coachList.append(div)
         })
       } else {
         coachList.innerHTML += `<h3>No results. Search again!</h3>`
@@ -259,36 +261,33 @@ function displayCoachIndex(){
   })
 }
 
-function addAppointment() {
-  let appointmentTag = document.querySelector(".addAppointment")
-  appointmentTag.addEventListener('click', (e) => {
-    const coachId = e.target.dataset.coachId
-    const userId = localStorage.getItem('user_id')
-    fetch(`${BASE_URL}/appointments`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({
-        coach_id: coachId,
-        user_id: userId,
-        status: "pending",
-        // datetime: 
-        duration: 30,
-        address: "New Haven, CT"
-      })
+function addAppointment(e) {
+  const coachId = e.target.dataset.coachId
+  const userId = localStorage.getItem('user_id')
+  fetch(`${BASE_URL}/appointments`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    },
+    body: JSON.stringify({
+      coach_id: coachId,
+      user_id: userId,
+      status: "pending",
+      // datetime: 
+      duration: 30,
+      address: "New Haven, CT"
     })
-    .then(res => res.json())
-    .then(data => console.log(data))
   })
+  .then(res => res.json())
+  .then(data => console.log(data))
 }
   
 function renderAppointments(status) {
   // need to make back-end so only appointments for specific coach are returned
   const mainContainer = document.querySelector('main')
-  fetch(`${BASE_URL}/appointments?status=${status}`)
-  .then(res => res.json())
+  const adapter = new Adapter(BASE_URL)
+  adapter.getAppointments(status)
   .then(appointments => {
     appointments.forEach(appointment => {
       const div = document.createElement('div')
@@ -305,10 +304,10 @@ function renderAppointments(status) {
       // start_time is not listed above
       if (status == "pending") {
         const button = document.createElement('button')
+        button.addEventListener('click', e => acceptAppointment(e, appointment.id))
         const text = document.createTextNode(`Accept`)
         div.append(button)
         button.append(text)
-        button.addEventListener('click', e => acceptAppointment(e, appointment.id))
       } else {
       }
     })
@@ -316,17 +315,8 @@ function renderAppointments(status) {
 }
 
 function acceptAppointment(e, id) {
-  fetch(`${BASE_URL}/appointments/${id}`, {
-    method: "PATCH",
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json'
-    },
-    body: JSON.stringify({
-      status: "accepted"
-    })
-  })
-  .then(res => res.json())
+  const adapter = new Adapter(BASE_URL)
+  adapter.patchAppointment(id, {status: "accepted"})
   .then(appointment => {
     console.log(appointment)
     e.target.parentElement.remove()
