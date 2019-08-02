@@ -2,11 +2,11 @@ function displaySearchBar(){
   const mainContainer = document.querySelector('main')
   mainContainer.innerHTML += `
   <div class="searchBar">
-    <h2>Find Your Sherpa</h2>
-    <form>
+    <h3>Find Your Sherpa!</h3>
+    <form class="search">
         <label for="search">Search: </label>
         <input name="search" type="text">
-        <button id="filter" type="submit">Search</button>
+        <button id="filter" type="submit"><img src="../src/assets/search.png" alt="Magnifying Glass"></button>
     </form>
   </div>
   `

@@ -1,0 +1,123 @@
+.flexbox {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.s3-carousel {
+    position: relative;
+    width: 515px;
+    height: 800px;
+    background-color: #f9f9f9;
+    /* border: 3px solid grey; */
+}
+
+.column-component {
+    /* flex-grow: 8; */
+    position: relative;
+    width: 515px;
+    height: 800px;
+    background-color: #f9f9f9;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight : thin;
+    line-height: 600px;
+    /* border: 3px solid grey; */
+}
+
+.s3-label {
+    letter-spacing: 1px;
+    border-radius: 100px;
+    background-color: #ff5152;
+    color: #fff;
+    left: 15px;
+    top: 15px;
+    width: 70px;
+    position: absolute;
+    font-size: 12px;
+    padding-top: 2px;
+    padding-bottom: 1px;
+}
+
+.carousel__cell {
+    height: 600px;
+    width: 380px;
+    top: 100px;
+    margin: auto;
+    position: absolute;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight : thin;
+    text-align: center;
+    transform: translate(-350px);
+    transition: transform 0s cubic-bezier(.86,0,.07,1) 800ms, opacity 800ms cubic-bezier(.895,.03,.685,.22);
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+}
+
+.carousel__cell.active  {
+    transform: translate(54px);
+    transition: transform 800ms cubic-bezier(.86,0,.07,1) 0s;
+}
+
+.carousel__cell.transparent  {
+    opacity: 0;
+}
+
+.carousel__cell>div p {
+    padding-top: 30px;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 25px;
+}
+
+.container {
+    background-color: white;
+}
+
+.hard-img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+}
+
+.carousel__cell img {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-bottom: 0px;
+}
+
+/* Apple */
+.carousel__cell:nth-of-type(1) .logo {
+    margin: 20px auto auto;
+    position: relative;
+    width: 100px;
+    transform: translateY(-20px);
+    overflow: hidden;
+    margin:-21.875%
+}
+
+/* Nike */
+.carousel__cell:nth-of-type(2) .logo {
+    margin: 20px auto auto;
+    position: relative;
+    width: 60px;
+    transform: translateY(-10px);
+}
+
+/* Panera */
+.carousel__cell:nth-of-type(3) .logo {
+    margin: 15px auto auto;
+    position: relative;
+    width: 72px;
+    transform: translateY(-10px);
+}
+
+/* Starbucks */
+.carousel__cell:nth-of-type(4) .logo {
+    margin: 15px auto auto;
+    position: relative;
+    width: 64px;
+    transform: translateY(-12px);
+}

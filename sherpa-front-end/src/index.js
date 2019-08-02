@@ -1,6 +1,9 @@
 // import React from 'react';
 // import ReactDOM from 'react-dom';
 
+// import {displayUserPage, displayCoachPage} from "./displays.js"
+// import {displayHomePage} from "./home.js"
+
 const BASE_URL = "http://localhost:3000"
 
 document.addEventListener("DOMContentLoaded", function(e){

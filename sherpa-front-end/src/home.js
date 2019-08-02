@@ -1,9 +1,22 @@
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import CardContainer from './CardContainer.js'
+// import ColumnContainer from './ColumnContainer.js'
+
+// import image1 from './assets/user_photos/itunes.jpg'
+// import image2 from './assets/user_photos/nike.jpg'
+// import image3 from './assets/user_photos/panera.jpg'
+// import image4 from './assets/user_photos/starbucks.jpg'
+
+// import {displaySearchBar} from "./search.js"
+// import {}
+
 function displayHomePage(){
   const mainContainer = document.querySelector('main')
   mainContainer.innerHTML = `
   <div class="nav">
     <div class="hiddenNav"></div>
-    <h1>Sherpa</h1>
+        <h1 class="title"><img src="../src/assets/sheep-40.png" alt="Mascot">Sherpa</h1>
     <div class="dropdown">
         <button class="dropbtn">Login | Signup</button>
         <div class="dropdown-content">
@@ -49,14 +62,14 @@ function renderModal(model, Use){
       <div class="modal-content">
         <div class="modal-header">
           <span id="${model}${Use}Close" class="close">&times;</span>
-          <h2>Hi ${model}, ${Use}</h2>
+          <h2>${model.toUpperCase()} ${Use.toUpperCase()}</h2>
         </div>
         <div id="${model}${Use}Form" class="modal-body">
           <p>Some text in the Modal Body</p>
           <p>Some other text...</p>
         </div>
         <div class="modal-footer">
-          <h3>Modal Footer</h3>
+          <h3></h3>
         </div>
       </div>
     </div>
@@ -166,3 +179,24 @@ function displayLogin(model, Use) {
     })
   })
 }
+
+// const ASSETS = [
+//     {image: image1, money: "$1.12", user: "fluzmaster12"},
+//     {image: image2, money: "$0.91", user: "highlife18"},
+//     {image: image3, money: "$0.82", user: "breezy36"},
+//     {image: image4, money: "$0.79", user: "connected76"}
+// ];
+
+// function App() {
+//     return(
+//         <div className="flexbox">
+//             <CardContainer assets={ASSETS}/>
+//             <ColumnContainer/>
+//         </div>
+//     )
+// }
+
+// ReactDOM.render(
+//     <App />,
+//     document.getElementById('root')
+// );  
